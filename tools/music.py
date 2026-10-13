@@ -2,7 +2,8 @@
 
 Re menor, 100 BPM (1 pulso = 0,6 s; compás de 2,4 s). Caja de música al empezar, una campanita por
 cada color de las rosas, un reloj que se acelera mientras cae la noche, el clic del interruptor y el
-golpe cálido cuando se enciende la calavera, aleteo de murciélagos, el golpe del 10 % y el cierre.
+golpe cálido cuando se enciende la calavera, aleteo de murciélagos, el golpe del 10 %, la tienda que
+se dibuja y enciende sus luces (mayoristas) y el cierre.
 
 Uso: python3 tools/music.py build/audio/musica.f32   (float32 estéreo intercalado, 48 kHz)
 """
@@ -15,7 +16,8 @@ except ImportError:  # sin scipy funciona igual, solo más lento
     lfilter = None
 
 SR = 48000
-DUR = 19.2
+T_SHOP = 15.35  # se encienden las luces de la tienda
+DUR = 20.0
 BEAT = 0.6
 N = int(SR * (DUR + 0.2))
 rng = np.random.default_rng(1031)
@@ -346,10 +348,12 @@ def compose():
         (10.5, 12.15, [43, 50, 57, 58, 62], 31),  # Gm9: colgante
         (12.15, 12.6, [45, 52, 55, 61, 64], 33),  # A7: murciélagos
         (12.6, 13.8, [50, 57, 60, 64, 65], 38),   # Dm9: 10 %
-        (13.8, 15.0, [46, 53, 57, 62, 65], 34),   # Bbmaj7
-        (15.0, 16.2, [43, 50, 55, 58, 62], 31),   # Gm9: cierre
-        (16.2, 17.4, [45, 52, 57, 61, 64], 33),   # A7
-        (17.4, DUR - 0.2, [50, 57, 62, 65, 69, 64], 38),  # Dm(add9) final
+        (13.8, 14.4, [46, 53, 57, 62, 65], 34),   # Bbmaj7
+        (14.4, 15.35, [43, 50, 55, 58, 62], 31),  # Gm9: ¿tienes una tienda?
+        (15.35, 16.5, [46, 53, 60, 62, 65, 69], 34),  # Bbmaj9: se encienden las luces de la tienda
+        (16.5, 17.4, [43, 50, 55, 58, 62], 31),   # Gm9: cierre
+        (17.4, 18.0, [45, 52, 57, 61, 64], 33),   # A7
+        (18.0, DUR - 0.2, [50, 57, 62, 65, 69, 64], 38),  # Dm(add9) final
     ]
 
     def bright_curve(tt):
@@ -379,10 +383,10 @@ def compose():
     place(send, whoosh(0.5, 3000, 600, 0.3, 0.8), 3.0, gain=0.08)
 
     # --- ritmo suave (100 BPM) --------------------------------------------------
-    def groove(t_from, t_to, half=False, vel=1.0):
-        k0, k1 = int(round(t_from / BEAT)), int(round(t_to / BEAT))
+    def groove(t_from, t_to, half=False, vel=1.0, off=0.0):
+        k0, k1 = int(round((t_from - off) / BEAT)), int(round((t_to - off) / BEAT))
         for k in range(k0, k1):
-            tb = k * BEAT
+            tb = off + k * BEAT
             bb = k % 4
             if bb == 0 or (bb == 2 and not half):
                 place(dry, kick(0.9 * vel if bb == 0 else 0.75 * vel), tb, gain=0.55)
@@ -396,12 +400,13 @@ def compose():
     groove(3.0, 5.95)
     groove(9.0, 10.2, half=True, vel=0.8)
     groove(10.8, 12.0, half=True, vel=0.8)
-    groove(12.6, 15.0)
-    groove(15.6, 17.4, half=True, vel=0.8)
+    groove(12.6, 14.4)
+    groove(15.35, 16.2, half=True, vel=0.7, off=0.35)
+    groove(16.5, 18.0, half=True, vel=0.8, off=0.3)
 
     # --- bajo -------------------------------------------------------------------
     for t0, t1, _, root in CH:
-        if t0 < 2.4 or 5.95 <= t0 < 8.4 or t0 >= 17.4:
+        if t0 < 2.4 or 5.95 <= t0 < 8.4 or t0 >= 18.0:
             continue
         k = 0
         tt = t0
@@ -410,7 +415,7 @@ def compose():
             place(bassb, bass(mtof(root + (12 if k % 3 == 2 else 0)), ln, 0.8), tt, gain=0.5)
             tt += ln
             k += 1
-    place(bassb, bass(mtof(38), 1.8, 0.85), 17.4, gain=0.55)
+    place(bassb, bass(mtof(38), 1.8, 0.85), 18.0, gain=0.55)
 
     # --- colores de las rosas: un toque y una campanita por cambio ---------------
     place(send, bell(mtof(77), 1.6, 0.8), 3.0, gain=0.16)
@@ -475,28 +480,45 @@ def compose():
     for m in (74, 81, 86, 89):
         place(send, bell(mtof(m), 2.4, 1.0), 13.27, gain=0.14)
     place(dry, kick(1.0), 13.27, gain=0.4)
-    mel = [81, 79, 77, 76, 77, 74, 76, 73]
+    mel = [81, 79, 77, 76, 77, 74]
     for k, m in enumerate(mel):
-        place(send, musicbox(mtof(m + 12), 1.6, 0.8), 13.8 + k * BEAT / 2, gain=0.09, pan=-0.3 + 0.08 * k)
+        place(send, musicbox(mtof(m + 12), 1.6, 0.8), 13.65 + k * BEAT / 2, gain=0.09, pan=-0.3 + 0.08 * k)
+
+    # --- ¿tienes una tienda? colabora con nosotros ---------------------------------------
+    place(dry, whoosh(0.7, 3500, 500, 0.35, 0.8), 14.3, gain=0.14)
+    place(dry, boom(2.0, 0.6), 14.4, gain=0.3)
+    for k, m in enumerate([67, 70, 74, 79, 82, 86]):                         # la tienda se dibuja
+        place(send, musicbox(mtof(m + 12), 1.6, 0.6), 14.6 + k * 0.12, gain=0.07, pan=-0.6 + 0.24 * k)
+    place(dry, switch_click(0.8), T_SHOP - 0.02, gain=0.35)                    # se encienden las luces
+    for m in (70, 74, 77, 81):
+        place(send, bell(mtof(m + 12), 2.2, 0.9), T_SHOP, gain=0.09)
+    place(pads, choir([58, 62, 65, 69], T_SHOP, 16.4, attack=0.25, release=0.8), T_SHOP, gain=0.8)
+    for k, m in enumerate([86, 89, 93]):                                      # las piezas en el escaparate
+        place(send, bell(mtof(m), 1.2, 0.7), T_SHOP + 0.15 + k * 0.12, gain=0.09, pan=(-0.4 + 0.4 * k))
+        place(dry, tick(2800, 0.5), T_SHOP + 0.15 + k * 0.12, gain=0.05)
+    for k in range(10):
+        tt = T_SHOP + 0.5 + sp.random() * 0.6
+        place(send, musicbox(mtof([93, 98, 101, 105][sp.integers(4)]), 0.9, 0.4), tt, gain=0.035, pan=sp.uniform(-0.7, 0.7))
 
     # --- cierre ------------------------------------------------------------------------------
-    place(send, riser(0.5), 14.5, gain=0.18)
-    place(dry, whoosh(0.7, 4500, 500, 0.35, 0.8), 14.95, gain=0.14)
-    place(dry, boom(2.4, 0.8), 15.0, gain=0.38)
-    place(dry, kick(1.0), 15.0, gain=0.5)
-    kicks.append(15.0)
+    E0 = 16.5
+    place(send, riser(0.5), E0 - 0.5, gain=0.18)
+    place(dry, whoosh(0.7, 4500, 500, 0.35, 0.8), E0 - 0.05, gain=0.14)
+    place(dry, boom(2.4, 0.8), E0, gain=0.38)
+    place(dry, kick(1.0), E0, gain=0.5)
+    kicks.append(E0)
     for m in (62, 69, 74, 77):
-        place(send, epiano(mtof(m), 2.2, 0.8), 15.01, gain=0.1)
+        place(send, epiano(mtof(m), 2.2, 0.8), E0 + 0.01, gain=0.1)
     for k in range(6):                                                       # se escribe la web
-        place(dry, tick(2600, 0.6), 15.95 + k * 0.1, gain=0.045)
+        place(dry, tick(2600, 0.6), E0 + 0.7 + k * 0.1, gain=0.045)
     for k, m in enumerate([86, 89, 93]):                                     # miniaturas
-        place(send, bell(mtof(m), 1.4, 0.6), 16.8 + k * 0.12, gain=0.08, pan=(-0.5 + 0.5 * k))
+        place(send, bell(mtof(m), 1.4, 0.6), E0 + 1.3 + k * 0.1, gain=0.08, pan=(-0.5 + 0.5 * k))
     outro = [74, 77, 81, 79, 77, 76, 74]
     for k, m in enumerate(outro):
-        place(send, musicbox(mtof(m + 12), 2.6, 0.85), 17.4 + k * BEAT / 2, gain=0.13, pan=0.3 - 0.08 * k)
+        place(send, musicbox(mtof(m + 12), 2.6, 0.85), 18.0 + k * BEAT / 2, gain=0.13, pan=0.3 - 0.08 * k)
     for m in (74, 81, 86):
-        place(send, bell(mtof(m), 3.0, 0.6), 17.4, gain=0.08)
-    place(send, choir([50, 57, 62, 65], 17.4, DUR - 0.3, attack=0.5, release=1.0), 17.4, gain=0.7)
+        place(send, bell(mtof(m), 3.0, 0.6), 18.0, gain=0.08)
+    place(send, choir([50, 57, 62, 65], 18.0, DUR - 0.3, attack=0.5, release=1.0), 18.0, gain=0.7)
 
     # --- compresión lateral: colchón y bajo respiran con el bombo --------------------------
     duck = np.ones(N)

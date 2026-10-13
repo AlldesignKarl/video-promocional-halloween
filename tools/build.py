@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BUILD = ROOT / "build"
 OUT = ROOT / "video"
 FPS = 30
-DUR = 19.2
+DUR = 20.0
 NAME = "AlldesignKarl_Halloween_1080x1920"
 NODE_ENV = dict(os.environ, NODE_PATH=subprocess.run(["npm", "root", "-g"], capture_output=True, text=True).stdout.strip())
 
@@ -126,7 +126,7 @@ def encode(total):
     run(["ffmpeg", "-v", "error", "-y", "-i", str(final), "-vf", "scale=720:1280:flags=lanczos,format=yuv420p", "-c:v", "libx264",
          "-preset", "slow", "-crf", "22", "-profile:v", "high", *color, "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart",
          str(OUT / f"{NAME.replace('_1080x1920', '')}_WhatsApp_720p.mp4")])
-    Image.open(BUILD / "frames" / f"f{int(18.6 * FPS):05d}.png").convert("RGB").save(OUT / "portada.jpg", quality=92)
+    Image.open(BUILD / "frames" / f"f{int(19.6 * FPS):05d}.png").convert("RGB").save(OUT / "portada.jpg", quality=92)
 
 
 if __name__ == "__main__":

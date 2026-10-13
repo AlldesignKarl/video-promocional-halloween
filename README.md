@@ -1,8 +1,9 @@
 # Alldesign Karl · Anuncio de Halloween
 
-Anuncio vertical de **19,2 s** (1080×1920, 30 fps, H.264 + AAC) para Reels, TikTok, Stories y WhatsApp.
+Anuncio vertical de **20 s** (1080×1920, 30 fps, H.264 + AAC) para Reels, TikTok, Stories y WhatsApp.
 Protagonistas: la **colección de Halloween** de la tienda online [alldesignkarl.com](https://alldesignkarl.com)
-y el **10 % de descuento del 14 al 24 de octubre**.
+el **10 % de descuento del 14 al 24 de octubre** y la invitación a las tiendas: **¿Tienes una tienda?
+Colabora con nosotros**.
 
 <img src="video/portada.jpg" width="270" alt="Portada del anuncio">
 
@@ -26,15 +27,16 @@ y el **10 % de descuento del 14 al 24 de octubre**.
 | 8,4–10,5 s | Clic del interruptor: **la base LED se enciende** (con el parpadeo real de un LED), las calaveras brillan desde dentro e iluminan la pared y la mesa. La cámara se acerca a la calavera de frente. | **se ilumina** · *BASE LED · CON O SIN LUZ* |
 | 10,3–12,2 s | La cámara atraviesa la luz y aparece el **colgante de resina con calavera** en la puerta: sus lucecitas titilan y la calavera pasa de blanco a negro con un barrido de luz. | *COLGANTE DE RESINA · Calavera · BLANCO · NEGRO* |
 | 12,2–12,9 s | Una nube de murciélagos cruza la pantalla y deja paso a un cielo de noche con luna llena. | — |
-| 12,6–15,0 s | **El descuento**: el número cuenta hasta 10 y golpea. | *OFERTA DE HALLOWEEN* · **10 %** · *de descuento* · *Del 14 al 24 de octubre* |
-| 15,0–19,2 s | Cierre: el 10 % sube a su sitio y se monta la ficha de contacto con las tres piezas. | *COLECCIÓN HALLOWEEN* · **Alldesign Karl** · *10 % DE DESCUENTO del 14 al 24 de octubre* · **alldesignkarl.com** · **614 65 37 36** (WhatsApp) · **alldesignkarl@gmail.com** · *TIENDA ONLINE para clientes* · *MAYORISTAS venta al por mayor* · *Hecho a mano en Aragón · Compra segura* · *Feliz Halloween* |
+| 12,6–14,4 s | **El descuento**: el número cuenta hasta 10 y golpea. | *OFERTA DE HALLOWEEN* · **10 %** · *de descuento* · *Del 14 al 24 de octubre* |
+| 14,4–16,5 s | **Para tiendas**: se dibuja con trazo dorado una tienda con toldo naranja y el letrero *TU TIENDA*; se encienden las luces del escaparate y aparecen dentro la calabaza, la calavera encendida y el colgante. | *MAYORISTAS* · **¿Tienes una tienda?** · *Colabora con nosotros* · *VENTA AL POR MAYOR PARA TIENDAS* · *Hazte mayorista en alldesignkarl.com* |
+| 16,5–20,0 s | Cierre: vuelve el 10 % como insignia y se monta la ficha de contacto con las tres piezas. | *COLECCIÓN HALLOWEEN* · **Alldesign Karl** · *10 % DE DESCUENTO del 14 al 24 de octubre* · **alldesignkarl.com** · **614 65 37 36** (WhatsApp) · **alldesignkarl@gmail.com** · *TIENDA ONLINE para clientes* · *MAYORISTAS venta al por mayor* · *Hecho a mano en Aragón · Compra segura* · *Feliz Halloween* |
 
 No se mencionan tiendas físicas: solo la tienda online (para clientes) y la venta a mayoristas.
 
 Música original sintetizada para el anuncio (re menor, 100 BPM, sin derechos de terceros): caja de música
 al empezar, una campanita por cada color de las rosas, un reloj que se acelera mientras cae la noche, el
 clic del interruptor y un golpe cálido con coro al encenderse la calavera, aleteo de murciélagos, el golpe
-del 10 % y el cierre. Mezcla a -14 LUFS con el pico real por debajo de -1,5 dB (estándar de Instagram,
+del 10 %, la tienda que se dibuja y enciende sus luces, y el cierre. Mezcla a -14 LUFS con el pico real por debajo de -1,5 dB (estándar de Instagram,
 TikTok y YouTube).
 
 ## Fotos usadas
