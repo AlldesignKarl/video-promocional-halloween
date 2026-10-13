@@ -121,7 +121,7 @@ def encode(total):
     vf = "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p"
     final = OUT / f"{NAME}.mp4"
     run(["ffmpeg", "-v", "error", "-y", "-framerate", str(FPS), "-i", "build/frames/f%05d.png", "-i", "audio/banda_sonora.flac",
-         "-frames:v", str(total), "-vf", vf, "-c:v", "libx264", "-preset", "slow", "-crf", "15", "-profile:v", "high", "-level", "4.2",
+         "-frames:v", str(total), "-vf", vf, "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-maxrate", "16M", "-bufsize", "24M", "-profile:v", "high", "-level", "4.2",
          "-tune", "film", *color, "-c:a", "aac", "-b:a", "256k", "-ar", "48000", "-shortest", "-movflags", "+faststart", str(final)])
     run(["ffmpeg", "-v", "error", "-y", "-i", str(final), "-vf", "scale=720:1280:flags=lanczos,format=yuv420p", "-c:v", "libx264",
          "-preset", "slow", "-crf", "22", "-profile:v", "high", *color, "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart",
